@@ -1,15 +1,15 @@
 # cf-FetchProblems
 
-This is a simple python script which fetches all problems of division 3 and division 2 from a competitive platform "CodeForces" and then selects 3 problems from that which are sorted by difficulty level. 
+This is a simple python script which fetches problems of division 3 and division 2 based on the tags and rating provoded by the user from a competitive platform "CodeForces" and then selects the number of problems as per users's wish from that. 
 
-This can be used to motivate the programmers who are new to competitive, by giving them 3 questions everyday. Also, this script makes sure that no problems are repeated which are already solved before by the programmers. The output generated is a whatsapp text message which contains the 3 problems followed by URL links. This can be send to whatsapp group where all the users get motivated to solve.
+This can be used to motivate the programmers who are new to competitive, by giving them questions based on their requirements everyday. Also, this script makes sure that no problems are repeated which are already solved before by the programmers.
 
 # How to use ?
 
 This script uses codeforces API to find the URL of problems, hence we need to install the requests.
 
 ```
-pip install requests
+pip install -r requirements.txt
 ```
 
 To run the program
