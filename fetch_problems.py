@@ -1,10 +1,6 @@
 import requests
 import random
 
-# Here empty tag will fetch all problems
-# it can be tags = "implementation;dp;math"
-tags = ''
-
 handles = [line.rstrip('\n') for line in open("users.txt")] # this will store all the user handles from users.txt in a list
 
 
@@ -49,7 +45,7 @@ def get_user_handle_ids():
 
 
 # to eleminate all the solved contest ids (by user) and to get problems from the contest id's and generate url
-def get_problems():
+def get_problems(tags, minr, maxr, n):
 
     id1 = get_id()
     id2 = get_user_handle_ids()
@@ -64,43 +60,41 @@ def get_problems():
         exit()
     response = response["result"]
     problems_response = response["problems"]
-    problemA = []
-    problemB = []
-    problemC = []
     problems = []
+    result = []
+
 
     for problem in problems_response:
         try:
-            if problem["contestId"] in ids and (problem["rating"]>900 and problem["rating"]<1300):
+            if problem["contestId"] in ids and (problem["rating"]>minr and problem["rating"]<maxr):
                 url = 'https://www.codeforces.com/problemset/problem/' + \
                     str(problem["contestId"]) + '/' + problem["index"]
-                problemA.append( url)
-            if problem["contestId"] in ids and (problem["rating"]>1200 and problem["rating"]<1500):
-                url = 'https://www.codeforces.com/problemset/problem/' + \
-                    str(problem["contestId"]) + '/' + problem["index"]
-                problemB.append( url)
-            if problem["contestId"] in ids and (problem["rating"]>1400 and problem["rating"]<1700):
-                url = 'https://www.codeforces.com/problemset/problem/' + \
-                    str(problem["contestId"]) + '/' + problem["index"]
-                problemC.append(url)
+                problems.append( url)
         except:
             continue
 
-    i = random.randint(0, len(problemA)-1)
-    problems.append(problemA[i])
-    i = random.randint(0, len(problemB)-1)
-    problems.append(problemB[i])
-    i = random.randint(0, len(problemC)-1)
-    problems.append(problemC[i])
+    x = min(n, len(problems))
 
-    return problems
+    while x>0:
+        i = random.randint(0, len(problems)-1)
+        result.append(problems[i])
+        x-=1
+    
+    return result
 
 
 # main function
 if __name__ == "__main__":
-    prob = get_problems()
-    with open('message.txt', 'w', encoding='utf-8') as f:
-        message = "Today's problems: \n*Category A*: "+prob[0]+"\n*Category B*: "+prob[1]+"\n*Category C*: "+prob[2]+"\nIf you're new to CP, solve A, B, C. Once you solve it reply with 👍 to motivate others"
-        f.write(message)
+    print("Enter \";\" seperated tags :", end=" ")
+    tag = input()
+    print("Enter minimum rating :", end=" ")
+    min_rating = int(input())
+    print("Enter maximum rating :", end=" ")
+    max_rating = int(input())
+    print("Enter maximum number of problems you want :", end=" ")
+    num = int(input())
+    print("Here are the problem links!")
+    prob = get_problems(tag, min_rating, max_rating, num)
 
-    # print(message)
+    for eachprob in prob:
+        print(eachprob)
